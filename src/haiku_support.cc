@@ -480,6 +480,9 @@ get_zoom_rect (BWindow *window)
 
   if (!(modifiers () & B_SHIFT_KEY) && !deskbar.IsAutoHide ())
     {
+#ifdef __HAVEN__
+      frame.top = deskbar_frame.bottom + 2;
+#else
       switch (deskbar.Location ())
 	{
 	case B_DESKBAR_TOP:
@@ -506,6 +509,7 @@ get_zoom_rect (BWindow *window)
 	      && !deskbar.IsAutoRaise ())
 	    frame.right = deskbar_frame.left - 2;
 	}
+#endif
     }
 
   if (window)
@@ -5584,6 +5588,8 @@ be_get_explicit_workarea (int *x, int *y, int *width, int *height)
 {
   BDeskbar deskbar;
   BRect zoom;
+
+#ifndef __HAVEN__
   deskbar_location location;
 
   location = deskbar.Location ();
@@ -5591,6 +5597,7 @@ be_get_explicit_workarea (int *x, int *y, int *width, int *height)
   if (location != B_DESKBAR_TOP
       && location != B_DESKBAR_BOTTOM)
     return false;
+#endif
 
   zoom = get_zoom_rect (NULL);
 
